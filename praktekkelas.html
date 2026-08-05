@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pratikum form</title>
+    <style>
+        body {font-family: Arial, sans-serif; max-width: 100x; margin: 30px auto; padding: 0 20px;}
+        label {display: block; margin-top: 15px; font-weight: bold;}input, select, textarea {width: 1005; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px;}
+        button {margin-top: 20px; padding: 10px 25px; background: #2E6DB4; color: white; border: none; border-radius: 4px; cursor: pointer;}
+        button:hover {background: #1A3C6E;}
+    </style>
+</head>
+<body>
+    <h1>form pendaftaran SPMB</h1>
+    <form>
+        <table>
+            <tr>
+                <td><label>nama lengkap</label></td>
+                <td>:</td>
+                <td><input type="text" required placeholder="masukan nama lengkap"><br></td>
+            </tr>
+            <tr>
+                <td><LABEL>NIK</LABEL></td>
+                <td>:</td>
+                <td><input type="number"><br></td>
+            </tr>
+            </table>
+
+                <label>email</label>
+                <input type="email"><br>
+                <label>password</label>
+                <input type="password"><br>
+                <label>alamat</label>
+                <textarea placeholder="masukan alamat"></textarea><br>
+                <label>Tanggal lahir</label>
+                <input type="date"><br>
+                <label>jenis kelamin</label>
+                <input type="radio" name="jeniskelamin">Laki-Laki
+                <input type="radio" name="jeniskelamin">Perempuan <br>
+                <label>mata pelajaran yang di sukai</label>
+                <input type="checkbox" name="mapel">matematika
+                <input type="checkbox" name="mapel">B.inggris
+                <input type="checkbox" name="mapel">B.indonesia 
+                <input type="checkbox" name="mapel">fisika
+                <label>jurusan</label>
+                <select name="jurusan">
+                    <option value="RPL">RPL</option>
+                    <option value="TKJ">TKJ</option>
+                    <option value="PG">PG</option>
+                </select><br> 
+                <label>upload foto</label>
+                <input type="file">          
+
+                <button type="submit">submit</button>
+                <button type="reset">reset</button>
+
+   </form>
+</body>
+</html>
