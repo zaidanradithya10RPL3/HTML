@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi To-Do List + Local Storage</title>
+</head>
+<body>
+
+    <h2>Aplikasi To-Do List</h2>
+
+    <div class="input-container">
+        <input type="text" id="taskInput" placeholder="Tambahkan tugas baru...">
+        <button id="addTaskBtn">Tambah</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <div class="footer-info">
+        <button id="clearAllBtn">Hapus Semua</button>
+        <div id="info-jumlah">Tugas belum selesai: 0</div>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addTaskBtn = document.getElementById('addTaskBtn');
+        const taskList = document.getElementById('taskList');
+        const infoJumlah = document.getElementById('info-jumlah');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+
+        // Memuat data dari Local Storage saat halaman pertama kali dibuka
+        document.addEventListener('DOMContentLoaded', muatDataDariStorage);
+
+        function updateJumlahTugas() {
+            const totalBelumSelesai = document.querySelectorAll('#taskList li:not(.completed)').length;
+            infoJumlah.textContent = `Tugas belum selesai: ${totalBelumSelesai}`;
+        }
+
+        // Fungsi untuk menyimpan seluruh daftar tugas ke Local Storage
+        function simpanKeStorage() {
+            const daftarTugas = [];
+            document.querySelectorAll('#taskList li').forEach(li => {
+                daftarTugas.push({
+                    teks: li.querySelector('span').textContent,
+                    selesai: li.classList.contains('completed')
+                });
+            });
+            localStorage.setItem('tugasHarian', JSON.stringify(daftarTugas));
+        }
+
+        // Fungsi untuk merender elemen HTML tugas
+        function buatElemenTugas(teksTugas, isSelesai = false) {
+            // 1. createElement
+            const li = document.createElement('li');
+            if (isSelesai) {
+                li.classList.add('completed');
+            }
+
+            const span = document.createElement('span');
+            span.textContent = teksTugas;
+
+            // Menandai tugas selesai (dicoret) via classList.toggle
+            span.addEventListener('click', () => {
+                li.classList.toggle('completed');
+                updateJumlahTugas();
+                simpanKeStorage();
+            });
+
+            const divActions = document.createElement('div');
+            divActions.className = 'actions';
+
+            const btnHapus = document.createElement('button');
+            btnHapus.textContent = 'Hapus';
+            btnHapus.className = 'btn-delete';
+
+            // 3. remove
+            btnHapus.addEventListener('click', () => {
+                li.remove();
+                updateJumlahTugas();
+                simpanKeStorage();
+            });
+
+            divActions.appendChild(btnHapus);
+            li.appendChild(span);
+            li.appendChild(divActions);
+
+            // 2. appendChild
+            taskList.appendChild(li);
+        }
+
+        function tambahTugas() {
+            const teksTugas = taskInput.value.trim();
+            if (teksTugas === '') {
+                alert('Silakan masukkan nama tugas!');
+                return;
+            }
+
+            buatElemenTugas(teksTugas, false);
+            taskInput.value = '';
+            updateJumlahTugas();
+            simpanKeStorage();
+        }
+
+        function muatDataDariStorage() {
+            const dataTersimpan = localStorage.getItem('tugasHarian');
+            if (dataTersimpan) {
+                const daftarTugas = JSON.parse(dataTersimpan);
+                daftarTugas.forEach(item => {
+                    buatElemenTugas(item.teks, item.selesai);
+                });
+            }
+            updateJumlahTugas();
+        }
+
+        // Fitur Hapus Semua Tugas
+        clearAllBtn.addEventListener('click', () => {
+            if (taskList.children.length === 0) return;
+
+            if (confirm('Yakin ingin menghapus semua tugas?')) {
+                // Menghapus semua elemen <li> satu per satu dengan .remove()
+                while (taskList.firstChild) {
+                    taskList.firstChild.remove();
+                }
+                localStorage.removeItem('tugasHarian');
+                updateJumlahTugas();
+            }
+        });
+
+        // 5. addEventListener untuk tombol tambah
+        addTaskBtn.addEventListener('click', tambahTugas);
+
+        // Tambah dengan tombol Enter pada keyboard
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                tambahTugas();
+            }
+        });
+    </script>
+</body>
+</html>
