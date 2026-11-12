@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Profil Sekolah</title>
+  <style>
+    body { 
+      font-family: Arial; 
+      padding: 30px; 
+      background: white; 
+      color: black; 
+    }
+    
+    /* Gaya dasar kotak informasi (Mode Terang) */
+    .kotak-info {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f0f4f8;
+      border: 1px solid #d0d7de;
+      color: #1f2328;
+    }
+
+    /* Gaya saat Mode Gelap aktif */
+    body.gelap { 
+      background: #1e1e1e; 
+      color: #f5f5f5; 
+    }
+
+    /* Perubahan warna kotak informasi saat Mode Gelap aktif */
+    body.gelap .kotak-info {
+      background-color: #2d2d2d;
+      border-color: #444444;
+      color: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <h1>SMK Maju Jaya</h1>
+  <p>Jurusan Rekayasa Perangkat Lunak.</p>
+  <button id="btnTema">Mode Gelap</button>
+
+  <!-- Elemen tambahan: Kotak Informasi -->
+  <div class="kotak-info">
+    <h3>Informasi Pendaftaran</h3>
+    <p>Penerimaan peserta didik baru tahun ajaran ini telah dibuka. Silakan hubungi bagian tata usaha untuk informasi lebih lanjut.</p>
+  </div>
+
+  <script>
+    const btnTema = document.getElementById('btnTema');
+
+    btnTema.addEventListener('click', () => {
+      document.body.classList.toggle('gelap');
+
+      if (document.body.classList.contains('gelap')) {
+        btnTema.textContent = 'Mode Terang';
+      } else {
+        btnTema.textContent = 'Mode Gelap';
+      }
+    });
+  </script>
+</body>
+</html>
